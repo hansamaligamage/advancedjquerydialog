@@ -1,0 +1,147 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model jqueryconfirmdialog.ViewModels.Course
+@{
+}
+
+<div style="padding:20px;">
+    @Html.HiddenFor(model => model.Id)
+    Course : @Html.DisplayFor(model => model.CourseTitle)
+</div>
+<br/>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th style="display:none">
+            </th>
+            <th>
+                @Html.DisplayName("Module")
+            </th>
+            <th>
+                @Html.DisplayName("Lecturer")
+            </th>
+            <th>
+                @Html.DisplayName("Level")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model.Modules)
+        {
+            <tr>
+                <td style="display:none">
+                    @Html.HiddenFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lecturer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Level)
+                </td>
+                <td id="@item.Id">
+                    @Html.ActionLink("Remove", "Delete", new { id = item.Id }, new { @id = "btnRemove" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br/>
+
+<div style="padding:20px;">
+    @for (var i = 0; i < Model.CourseImageUrls.Count; i++)
+    {
+        if (!string.IsNullOrEmpty(Model.CourseImageUrls[i].Url))
+        {
+            <div id="@Model.CourseImageUrls[i].Id">
+                <img id="image_@Model.CourseImageUrls[i]" src="@Url.Content(Model.CourseImageUrls[i].Url)" style="width:200px; height:200px" />
+                <input id="btnImageRemove" type="button" value="Remove" class="btn btn-default" />
+            </div>
+        }
+    }
+</div>
+<br/>
+<div style="padding:20px;">
+    @for (var i = 0; i < Model.CourseVideoUrls.Count; i++)
+    {
+        if (!string.IsNullOrEmpty(Model.CourseVideoUrls[i].Url))
+        {
+            <div id="@Model.CourseVideoUrls[i].Id">
+                <object width="320" height="240" data="@Url.Content(Model.CourseVideoUrls[i].Url)"></object>
+                <input id="btnVideoRemove" type="button" value="Remove" class="btn btn-default" />
+            </div>
+        }
+    }
+</div>
+
+<div id="confirmDialog" title="Save changes" hidden>
+    <p>Do you want to save changes </p>
+</div>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.11.4/jquery-ui.min.js"></script>
+
+<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+
+<script>
+
+    $(function () {
+
+        $("#confirmDialog").dialog({
+            autoOpen: false,
+            modal: true,
+            resizable: false,
+            buttons: {
+                "Ok": function () {
+                    var type = $(this).data('type');
+                    if (type == 1) { // remove a module
+                        var module = $(this).data('module');
+                        window.location.href = '/Home/RemoveModule?id=' + module;
+                    }
+                    else // remove an image or video
+                    {
+                        var id = $(this).data('id');
+                        window.location.href = '/Home/RemoveResource?id=' + id + '&type=' + type;
+                    }
+                },
+                "Cancel": function (e) {
+                    $(this).dialog("close");
+                }
+            },
+        });
+
+        $('a[id*=btnRemove]').click(function (e) {
+            debugger;
+            e.preventDefault();
+            var id = $(this).parent()[0].id;
+            var data = $('#confirmDialog').data();
+            data.type = 1;
+            data.module = id;
+            $('#confirmDialog').dialog('open');
+        });
+
+        $('input[id*=btnImageRemove]').click(function () {
+            var id = $(this).parent()[0].id;
+            var data = $('#confirmDialog').data();
+            data.type = 2;
+            data.id = id;
+            $('#confirmDialog').dialog('open');
+        });
+
+        $('input[id*=btnVideoRemove]').click(function () {
+            var id = $(this).parent()[0].id;
+            var data = $('#confirmDialog').data();
+            data.type = 3;
+            data.id = id;
+            $('#confirmDialog').dialog('open');
+        });
+
+
+    });
+
+</script>
