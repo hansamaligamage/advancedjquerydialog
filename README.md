@@ -5,36 +5,36 @@ This code snippet shows different actions performed in the application (click on
 
 ```
  $('a[id*=btnRemove]').click(function (e) { 
-            debugger; 
-            e.preventDefault(); 
-            var id = $(this).parent()[0].id; 
-            var data = $('#confirmDialog').data(); 
-            data.type = 1; 
-            data.module = id; 
-            $('#confirmDialog').dialog('open'); 
-        }); 
+     debugger; 
+     e.preventDefault(); 
+     var id = $(this).parent()[0].id; 
+     var data = $('#confirmDialog').data(); 
+     data.type = 1; 
+     data.module = id; 
+     $('#confirmDialog').dialog('open'); 
+  }); 
  
-        $('input[id*=btnImageRemove]').click(function () { 
-            var id = $(this).parent()[0].id; 
-            var data = $('#confirmDialog').data(); 
-            data.type = 2; 
-            data.id = id; 
-            $('#confirmDialog').dialog('open'); 
-        }); 
+  $('input[id*=btnImageRemove]').click(function () { 
+      var id = $(this).parent()[0].id; 
+      var data = $('#confirmDialog').data(); 
+      data.type = 2; 
+      data.id = id; 
+      $('#confirmDialog').dialog('open'); 
+   }); 
  
-        $('input[id*=btnVideoRemove]').click(function () { 
-            var id = $(this).parent()[0].id; 
-            var data = $('#confirmDialog').data(); 
-            data.type = 3; 
-            data.id = id; 
-            $('#confirmDialog').dialog('open'); 
-        });
-        ```
-        
-        In below code snippet, it shows JQuery confirm dialog box initialization, in all the above button clicks it calls same JQuery dialog box with same div tags. When click on OK button in dialog box, it performs different actions based on type, if you can see more into this, it shows how to extract parameters passed from different places.
-        
-        ```
-         $("#confirmDialog").dialog({ 
+   $('input[id*=btnVideoRemove]').click(function () { 
+       var id = $(this).parent()[0].id; 
+       var data = $('#confirmDialog').data(); 
+       data.type = 3; 
+       data.id = id; 
+       $('#confirmDialog').dialog('open'); 
+    });
+```
+
+In below code snippet, it shows JQuery confirm dialog box initialization, in all the above button clicks it calls same JQuery dialog box with same div tags. When click on OK button in dialog box, it performs different actions based on type, if you can see more into this, it shows how to extract parameters passed from different places.
+
+```
+ $("#confirmDialog").dialog({ 
       autoOpen: false, 
       modal: true, 
       resizable: false, 
@@ -56,4 +56,8 @@ This code snippet shows different actions performed in the application (click on
             } 
          }, 
     });
-    ```
+```
+    
+Continue to read more on how to pass multiple parameters to a JQuery dialog and process many actions with same JQuery dialog based on those parameters, go through this article <a href="https://social.technet.microsoft.com/wiki/contents/articles/38122.asp-net-core-advanced-jquery-dialog-actions.aspx">ASP.NET  Core : Advanced JQuery dialog actions</a>
+      
+You can check this article to know how to show a simple confirmation dialog, <a href="https://social.technet.microsoft.com/wiki/contents/articles/37986.asp-net-core-how-to-show-a-confirmation-dialog-with-jquery.aspx ">ASP.NET Core : How to show a confirmation  dialog with jquery</a>
